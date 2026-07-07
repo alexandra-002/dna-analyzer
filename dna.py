@@ -1,11 +1,16 @@
 
 sequence = input("Enter a DNA sequence: ").upper()
 
+if len(sequence) == 0:
+	print("Sequence cannot be empty")
+	exit()
+
 valid_bases = "ATCG"
 is_valid = True
 
 for base in sequence:
 	if base not in valid_bases:
+		print("Invalid base found:", base)
 		is_valid = False
 
 if not is_valid:
