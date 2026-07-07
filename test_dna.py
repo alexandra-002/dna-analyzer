@@ -1,4 +1,4 @@
-from dna import validate_sequence, calculate_gc_content, count_bases, read_fasta, analyze_sequences
+from dna import validate_sequence, calculate_gc_content, count_bases, read_fasta, analyze_sequences, read_fasta
 
 
 def test_valid_sequence():
@@ -36,3 +36,9 @@ def test_analyze_sequence_length():
     results = analyze_sequences(sequences)
 
     assert results["gene_test"]["length"] == 4
+
+def test_missing_file():
+
+    sequences = read_fasta("does_not_exist.fasta")
+
+    assert sequences == {}

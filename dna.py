@@ -50,18 +50,24 @@ def read_fasta(filename):
 
     sequences = {}
 
-    with open(filename, "r") as file:
-        sequence_name = None
+    try:
+        with open(filename, "r") as file:
 
-        for line in file:
-            line = line.strip()
+            sequence_name = None
 
-            if line.startswith(">"):
-                sequence_name = line[1:]
-                sequences[sequence_name] = ""
+            for line in file:
+                line = line.strip()
 
-            else:
-                sequences[sequence_name] += line
+                if line.startswith(">"):
+                    sequence_name = line[1:]
+                    sequences[sequence_name] = ""
+
+                else:
+                    sequences[sequence_name] += line
+
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' was not found.")
+        return {}
 
     return sequences
 
@@ -141,6 +147,10 @@ def main():
 
     sequences = read_fasta(args.filename)
 
+    if not sequences:
+        print("No sequences found.")
+        return
+
     results = analyze_sequences(sequences)
 
     print_report(results)
@@ -148,7 +158,6 @@ def main():
     write_csv(results, "results.csv")
 
     print("\nResults saved to results.csv")
-
 
 if __name__ == "__main__":
     main()
