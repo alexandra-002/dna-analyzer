@@ -62,28 +62,44 @@ def read_fasta(filename):
 
     return sequences
 
+def analyze_sequences(sequences):
+    """
+    Analyze multiple DNA sequences.
+    """
+
+    results = {}
+
+    for name, sequence in sequences.items():
+        results[name] = {
+            "length": len(sequence),
+            "gc_content": calculate_gc_content(sequence),
+            "counts": count_bases(sequence)
+        }
+
+    return results
+
+def print_report(results):
+    """
+    Print analysis results.
+    """
+
+    for name, data in results.items():
+
+        print("\nSequence:", name)
+        print("Length:", data["length"])
+        print("GC Content:", data["gc_content"], "%")
+
+        print("A:", data["counts"]["A"])
+        print("T:", data["counts"]["T"])
+        print("C:", data["counts"]["C"])
+        print("G:", data["counts"]["G"])
+
 def main():
-    sequence = input("Enter a DNA sequence: ").upper()
+    sequences = read_fasta("sample.fasta")
 
-    if len(sequence) == 0:
-        print("Sequence cannot be empty")
-        return
+    results = analyze_sequences(sequences)
 
-    if not validate_sequence(sequence):
-        print("Invalid DNA sequence")
-        return
-
-    counts = count_bases(sequence)
-    gc_content = calculate_gc_content(sequence)
-
-    print("Sequence:", sequence)
-    print("Length:", len(sequence))
-    print("GC Content:", gc_content, "%")
-
-    print("A:", counts["A"])
-    print("T:", counts["T"])
-    print("C:", counts["C"])
-    print("G:", counts["G"])
+    print_report(results)
 
 
 if __name__ == "__main__":
