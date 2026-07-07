@@ -1,4 +1,7 @@
 
 sequence = input("Enter a DNA sequence: ")
 
-print("You entered:", sequence)
+length = len(sequence)
+
+print("Sequence:", sequence)
+print("Length:", length)
