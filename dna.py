@@ -1,4 +1,7 @@
 
+import argparse
+import csv
+
 def validate_sequence(sequence):
     """
     Check whether a DNA sequence only contains A, T, C, G.
@@ -94,12 +97,57 @@ def print_report(results):
         print("C:", data["counts"]["C"])
         print("G:", data["counts"]["G"])
 
+def write_csv(results, filename):
+    """
+    Write analysis results to a CSV file.
+    """
+
+    with open(filename, "w", newline="") as file:
+        writer = csv.writer(file)
+
+        writer.writerow([
+            "Sequence",
+            "Length",
+            "GC_Content",
+            "A",
+            "T",
+            "C",
+            "G"
+        ])
+
+        for name, data in results.items():
+            writer.writerow([
+                name,
+                data["length"],
+                data["gc_content"],
+                data["counts"]["A"],
+                data["counts"]["T"],
+                data["counts"]["C"],
+                data["counts"]["G"]
+            ])
+
 def main():
-    sequences = read_fasta("sample.fasta")
+
+    parser = argparse.ArgumentParser(
+        description="Analyze DNA sequences from a FASTA file"
+    )
+
+    parser.add_argument(
+        "filename",
+        help="FASTA file containing DNA sequences"
+    )
+
+    args = parser.parse_args()
+
+    sequences = read_fasta(args.filename)
 
     results = analyze_sequences(sequences)
 
     print_report(results)
+
+    write_csv(results, "results.csv")
+
+    print("\nResults saved to results.csv")
 
 
 if __name__ == "__main__":

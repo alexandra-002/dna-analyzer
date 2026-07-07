@@ -1,4 +1,4 @@
-from dna import validate_sequence, calculate_gc_content, count_bases, read_fasta
+from dna import validate_sequence, calculate_gc_content, count_bases, read_fasta, analyze_sequences
 
 
 def test_valid_sequence():
@@ -26,3 +26,13 @@ def test_read_fasta():
 
     assert sequences["gene_1"] == "ATCGATCGATCG"
     assert sequences["gene_2"] == "GGGCCCAAATTT"
+
+def test_analyze_sequence_length():
+
+    sequences = {
+        "gene_test": "ATCG"
+    }
+
+    results = analyze_sequences(sequences)
+
+    assert results["gene_test"]["length"] == 4
