@@ -40,6 +40,27 @@ def calculate_gc_content(sequence):
 
     return round(gc_content, 2)
 
+def read_fasta(filename):
+    """
+    Read a FASTA file and return sequences as a dictionary.
+    """
+
+    sequences = {}
+
+    with open(filename, "r") as file:
+        sequence_name = None
+
+        for line in file:
+            line = line.strip()
+
+            if line.startswith(">"):
+                sequence_name = line[1:]
+                sequences[sequence_name] = ""
+
+            else:
+                sequences[sequence_name] += line
+
+    return sequences
 
 def main():
     sequence = input("Enter a DNA sequence: ").upper()

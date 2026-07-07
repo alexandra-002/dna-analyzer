@@ -1,4 +1,4 @@
-from dna import validate_sequence, calculate_gc_content, count_bases
+from dna import validate_sequence, calculate_gc_content, count_bases, read_fasta
 
 
 def test_valid_sequence():
@@ -20,3 +20,9 @@ def test_base_count():
     assert counts["T"] == 1
     assert counts["C"] == 1
     assert counts["G"] == 1
+
+def test_read_fasta():
+    sequences = read_fasta("sample.fasta")
+
+    assert sequences["gene_1"] == "ATCGATCGATCG"
+    assert sequences["gene_2"] == "GGGCCCAAATTT"
