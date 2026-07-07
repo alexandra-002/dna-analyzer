@@ -1,34 +1,69 @@
 
-sequence = input("Enter a DNA sequence: ").upper()
+def validate_sequence(sequence):
+    """
+    Check whether a DNA sequence only contains A, T, C, G.
+    """
 
-if len(sequence) == 0:
-	print("Sequence cannot be empty")
-	exit()
+    valid_bases = "ATCG"
 
-valid_bases = "ATCG"
-is_valid = True
+    for base in sequence:
+        if base not in valid_bases:
+            return False
 
-for base in sequence:
-	if base not in valid_bases:
-		print("Invalid base found:", base)
-		is_valid = False
+    return True
 
-if not is_valid:
-	print("Invalid DNA sequence")
-else:
-	length = len(sequence)
 
-	g_count = sequence.count("G")
-	c_count = sequence.count("C")
-	a_count = sequence.count("A")
-	t_count = sequence.count("T")
+def count_bases(sequence):
+    """
+    Count each nucleotide in a DNA sequence.
+    """
 
-	gc_content = ((g_count + c_count) / length) * 100
+    counts = {
+        "A": sequence.count("A"),
+        "T": sequence.count("T"),
+        "C": sequence.count("C"),
+        "G": sequence.count("G")
+    }
 
-	print("Sequence:", sequence)
-	print("Length:", length)
-	print("GC Content:", round(gc_content, 2), "%")
-	print("A:", a_count)
-	print("T:", t_count)
-	print("C:", c_count)
-	print("G:", g_count)
+    return counts
+
+
+def calculate_gc_content(sequence):
+    """
+    Calculate GC percentage.
+    """
+
+    g_count = sequence.count("G")
+    c_count = sequence.count("C")
+
+    gc_content = ((g_count + c_count) / len(sequence)) * 100
+
+    return round(gc_content, 2)
+
+
+def main():
+    sequence = input("Enter a DNA sequence: ").upper()
+
+    if len(sequence) == 0:
+        print("Sequence cannot be empty")
+        return
+
+    if not validate_sequence(sequence):
+        print("Invalid DNA sequence")
+        return
+
+    counts = count_bases(sequence)
+    gc_content = calculate_gc_content(sequence)
+
+    print("Sequence:", sequence)
+    print("Length:", len(sequence))
+    print("GC Content:", gc_content, "%")
+
+    print("A:", counts["A"])
+    print("T:", counts["T"])
+    print("C:", counts["C"])
+    print("G:", counts["G"])
+
+
+if __name__ == "__main__":
+    main()
