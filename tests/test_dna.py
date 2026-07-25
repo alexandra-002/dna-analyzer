@@ -67,3 +67,6 @@ def test_multiple_sequences():
 
 def test_lowercase_sequence():
     assert validate_sequence("atcg") == True
+
+def test_empty_gc_content():
+    assert calculate_gc_content("") == 0

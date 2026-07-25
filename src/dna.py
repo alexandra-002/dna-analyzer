@@ -45,12 +45,16 @@ def calculate_gc_content(sequence):
 
     sequence = sequence.upper()
 
+    if not sequence:
+        return 0
+
     g_count = sequence.count("G")
     c_count = sequence.count("C")
 
     gc_content = ((g_count + c_count) / len(sequence)) * 100
 
     return round(gc_content, 2)
+
 
 def read_fasta(filename):
     """
@@ -77,7 +81,7 @@ def read_fasta(filename):
                     continue
 
                 if line.startswith(">"):
-                    sequence_name = line[1:]
+                    sequence_name = line[1:].strip()
                     sequences[sequence_name] = ""
 
                 elif sequence_name is not None:
@@ -88,6 +92,7 @@ def read_fasta(filename):
         return {}
 
     return sequences
+
 
 def analyze_sequences(sequences):
     """
@@ -104,6 +109,7 @@ def analyze_sequences(sequences):
         }
 
     return results
+
 
 def print_report(results):
     """
