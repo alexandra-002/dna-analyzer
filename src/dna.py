@@ -10,6 +10,8 @@ def validate_sequence(sequence):
     if not sequence:
         return False
 
+    sequence = sequence.upper()
+
     valid_bases = "ATCG"
 
     for base in sequence:
@@ -23,6 +25,8 @@ def count_bases(sequence):
     """
     Count each nucleotide in a DNA sequence.
     """
+
+    sequence = sequence.upper()
 
     counts = {
         "A": sequence.count("A"),
@@ -38,6 +42,8 @@ def calculate_gc_content(sequence):
     """
     Calculate GC percentage.
     """
+
+    sequence = sequence.upper()
 
     g_count = sequence.count("G")
     c_count = sequence.count("C")

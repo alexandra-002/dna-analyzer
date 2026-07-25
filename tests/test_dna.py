@@ -64,3 +64,6 @@ def test_multiple_sequences():
 
     assert results["gene1"]["length"] == 4
     assert results["gene2"]["gc_content"] == 100.0
+
+def test_lowercase_sequence():
+    assert validate_sequence("atcg") == True
