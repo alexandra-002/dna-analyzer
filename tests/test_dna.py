@@ -1,5 +1,5 @@
-from dna import validate_sequence, calculate_gc_content, count_bases, read_fasta, analyze_sequences, read_fasta
-
+from pathlib import Path
+from src.dna import validate_sequence, calculate_gc_content, count_bases, read_fasta, analyze_sequences
 
 def test_valid_sequence():
     assert validate_sequence("ATCG") == True
@@ -22,7 +22,9 @@ def test_base_count():
     assert counts["G"] == 1
 
 def test_read_fasta():
-    sequences = read_fasta("sample.fasta")
+    fasta_file = Path(__file__).parent.parent / "data" / "sample.fasta"
+
+    sequences = read_fasta(fasta_file)
 
     assert sequences["gene_1"] == "ATCGATCGATCG"
     assert sequences["gene_2"] == "GGGCCCAAATTT"
@@ -42,3 +44,23 @@ def test_missing_file():
     sequences = read_fasta("does_not_exist.fasta")
 
     assert sequences == {}
+
+def test_empty_sequence():
+    assert validate_sequence("") == False
+
+def test_empty_fasta_file():
+    sequences = read_fasta("empty.fasta")
+
+    assert sequences == {}
+
+def test_multiple_sequences():
+
+    sequences = {
+        "gene1": "ATCG",
+        "gene2": "GGGG"
+    }
+
+    results = analyze_sequences(sequences)
+
+    assert results["gene1"]["length"] == 4
+    assert results["gene2"]["gc_content"] == 100.0

@@ -7,6 +7,9 @@ def validate_sequence(sequence):
     Check whether a DNA sequence only contains A, T, C, G.
     """
 
+    if not sequence:
+        return False
+
     valid_bases = "ATCG"
 
     for base in sequence:
@@ -46,6 +49,12 @@ def calculate_gc_content(sequence):
 def read_fasta(filename):
     """
     Read a FASTA file and return sequences as a dictionary.
+
+    Args:
+        filename: Path to FASTA file
+
+    Returns:
+        Dictionary containing sequence names and sequences.
     """
 
     sequences = {}
@@ -58,11 +67,14 @@ def read_fasta(filename):
             for line in file:
                 line = line.strip()
 
+                if not line:
+                    continue
+
                 if line.startswith(">"):
                     sequence_name = line[1:]
                     sequences[sequence_name] = ""
 
-                else:
+                elif sequence_name is not None:
                     sequences[sequence_name] += line
 
     except FileNotFoundError:
