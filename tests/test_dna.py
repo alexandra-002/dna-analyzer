@@ -119,3 +119,25 @@ def test_write_csv(tmp_path):
     write_csv(results, output_file)
 
     assert output_file.exists()
+
+
+def test_iupac_sequence():
+
+    assert validate_sequence("ATCGNRY") == True
+
+
+def test_iupac_reverse_complement():
+    assert reverse_complement("ATCGNRY") == "RYNCGAT"
+
+
+def test_large_fasta_file():
+
+    fasta_file = Path(__file__).parent.parent / "data" / "ecoli.fasta"
+
+    sequences = read_fasta(fasta_file)
+
+    assert len(sequences) == 1
+
+    sequence = list(sequences.values())[0]
+
+    assert len(sequence) > 5000000

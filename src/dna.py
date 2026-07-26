@@ -6,13 +6,9 @@ from pathlib import Path
 
 def validate_sequence(sequence):
     """
-    Validate that a DNA sequence contains only A, T, C, and G.
+    Validate that a DNA sequence contains valid IUPAC nucleotide codes.
 
-    Args:
-        sequence (str): DNA sequence.
-
-    Returns:
-        bool: True if valid, False otherwise.
+    Allows standard DNA bases and ambiguity codes.
     """
 
     if not sequence:
@@ -20,7 +16,7 @@ def validate_sequence(sequence):
 
     sequence = sequence.upper()
 
-    valid_bases = "ATCG"
+    valid_bases = "ATCGNRYSWKMBDHV"
 
     return all(base in valid_bases for base in sequence)
 
@@ -48,24 +44,26 @@ def count_bases(sequence):
 
 def calculate_gc_content(sequence):
     """
-    Calculate GC percentage of a DNA sequence.
-
-    Args:
-        sequence (str): DNA sequence.
-
-    Returns:
-        float: GC percentage.
+    Calculate GC percentage using only known DNA bases.
+    Ambiguous bases are ignored.
     """
 
     sequence = sequence.upper()
 
-    if not sequence:
-        return 0
-
     counts = count_bases(sequence)
 
+    valid_length = (
+        counts["A"]
+        + counts["T"]
+        + counts["C"]
+        + counts["G"]
+    )
+
+    if valid_length == 0:
+        return 0
+
     gc_content = (
-        (counts["G"] + counts["C"]) / len(sequence)
+        (counts["G"] + counts["C"]) / valid_length
     ) * 100
 
     return round(gc_content, 2)
@@ -73,13 +71,9 @@ def calculate_gc_content(sequence):
 
 def reverse_complement(sequence):
     """
-    Generate the reverse complement of a DNA sequence.
+    Return the reverse complement of a DNA sequence.
 
-    Args:
-        sequence (str): DNA sequence.
-
-    Returns:
-        str: Reverse complement sequence.
+    Supports standard bases and IUPAC ambiguity codes.
     """
 
     sequence = sequence.upper()
@@ -88,7 +82,20 @@ def reverse_complement(sequence):
         "A": "T",
         "T": "A",
         "C": "G",
-        "G": "C"
+        "G": "C",
+
+        # IUPAC ambiguity codes
+        "N": "N",
+        "R": "Y",
+        "Y": "R",
+        "S": "S",
+        "W": "W",
+        "K": "M",
+        "M": "K",
+        "B": "V",
+        "V": "B",
+        "D": "H",
+        "H": "D"
     }
 
     return "".join(

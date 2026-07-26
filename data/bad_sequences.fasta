@@ -1,0 +1,7 @@
+>valid_sequence
+ATCGATCG
+
+>invalid_sequence
+ATCGXYZ123
+
+>empty_sequence
