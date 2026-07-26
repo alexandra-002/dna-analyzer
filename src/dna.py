@@ -56,6 +56,23 @@ def calculate_gc_content(sequence):
     return round(gc_content, 2)
 
 
+def reverse_complement(sequence):
+    """
+    Return the reverse complement of a DNA sequence.
+    """
+
+    sequence = sequence.upper()
+
+    complement = {
+        "A": "T",
+        "T": "A",
+        "C": "G",
+        "G": "C"
+    }
+
+    return "".join(complement[base] for base in reversed(sequence))
+
+
 def read_fasta(filename):
     """
     Read a FASTA file and return sequences as a dictionary.

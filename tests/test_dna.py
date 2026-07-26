@@ -1,5 +1,13 @@
 from pathlib import Path
-from src.dna import validate_sequence, calculate_gc_content, count_bases, read_fasta, analyze_sequences
+
+from src.dna import (
+    validate_sequence,
+    calculate_gc_content,
+    count_bases,
+    read_fasta,
+    analyze_sequences,
+    reverse_complement
+)
 
 def test_valid_sequence():
     assert validate_sequence("ATCG") == True
@@ -70,3 +78,6 @@ def test_lowercase_sequence():
 
 def test_empty_gc_content():
     assert calculate_gc_content("") == 0
+
+def test_reverse_complement():
+    assert reverse_complement("ATCG") == "CGAT"
