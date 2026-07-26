@@ -196,9 +196,9 @@ def main():
 
     print_report(results)
 
-    write_csv(results, "results.csv")
+    write_csv(results, "results/results.csv")
 
-    print("\nResults saved to results.csv")
+    print("\nResults saved to results/results.csv")
 
 if __name__ == "__main__":
     main()
